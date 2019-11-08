@@ -134,6 +134,22 @@ module Enumerable
     counter
   end
 
+  def my_map
+    return self.to_enum unless block_given?
+    
+    new_array = []
+    if self.is_a? Array
+      self.my_each do |k|
+        new_array.push(yield(k))
+      end
+    elsif self.is_a? Hash
+      self.my_each do |k,v|
+        new_array.push(yield(k,v))
+      end
+    end
+        new_array
+  end
+
 
 
 end
@@ -144,7 +160,16 @@ t2 = {a:1, b:2, c:3, d:8}
 t3 = ["do", "don't", "memee"]
 t4 = {mi:"mama", me:"mima", mina:"moa", al:"together"}
 
-
+=begin
+p t1.map {|x| x*2}
+p t1.map {|z| z > 2}
+p t1.map{|z| z == Numeric} 
+p t2.map {|a,z| "my key is #{a} and value is #{z}"} 
+p "----------------------"
+p  t1.my_map {|x| x*2}
+p  t1.my_map {|z| z > 2}
+p  t1.my_map{|z| z == Numeric} 
+p  t2.my_map {|a,z| "my key is #{a} and value is #{z}"} 
 =begin
 #------ tests for my_count
 puts "#{t1.count} [1,2,3,2,5].count" 
