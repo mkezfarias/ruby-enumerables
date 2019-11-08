@@ -108,6 +108,33 @@ module Enumerable
     false
   end
 
+  def my_count(x=nil)
+    return self.length unless block_given? || !x.nil?
+
+    counter = 0
+    if !x.nil? 
+      self.my_each do |item|
+        if item == x
+          counter +=1
+        end
+      end
+    elsif self.is_a? Array
+      self.my_each do |item|
+        if yield(item)
+          counter +=1
+        end
+      end
+    elsif self.is_a? Hash
+      self.my_each do |k,v|
+        if yield(k,v)
+          counter +=1
+        end
+      end
+    end
+    counter
+  end
+
+
 
 end
 
@@ -117,6 +144,27 @@ t2 = {a:1, b:2, c:3, d:8}
 t3 = ["do", "don't", "memee"]
 t4 = {mi:"mama", me:"mima", mina:"moa", al:"together"}
 
+
+=begin
+#------ tests for my_count
+puts "#{t1.count} [1,2,3,2,5].count" 
+puts "#{t1.count(2)} [1,2,3,2,5].count(2)"
+puts "#{t1.count{|z| z > 2}} [1,2,3,2,5].count{|z| z > 2}"
+puts "#{t1.count{|z| z == Numeric}} [1,2,3,2,5].count{|z| z == Numeric}"
+puts "#{t2.count}} {a:1, b:2, c:3, d:8}.count"
+puts "#{t2.count(2)}} {a:1, b:2, c:3, d:8}.count(2)"
+puts "#{t2.count{|a,z| z > 2}}  {a:1, b:2, c:3, d:8}.count{|a,z| z > 2}"
+puts "#{t2.count{|a,z| z == Numeric}} {a:1, b:2, c:3, d:8}.count{|a,z| z == Numeric}"
+puts "----------------------"
+puts "#{t1.my_count} [1,2,3,2,5].count"
+puts "#{t1.my_count(2)} [1,2,3,2,5].count(2)"
+puts "#{t1.my_count{|z| z > 2}} [1,2,3,2,5].count{|z| z > 2}"
+puts "#{t1.my_count{|z| z == Numeric}} [1,2,3,2,5].count{|z| z == Numeric}"
+puts "#{t2.my_count}} {a:1, b:2, c:3, d:8}.count"
+puts "#{t2.my_count(2)}} {a:1, b:2, c:3, d:8}.count(2)"
+puts "#{t2.my_count{|a,z| z > 2}}  {a:1, b:2, c:3, d:8}.count{|a,z| z > 2}"
+puts "#{t2.my_count{|a,z| z == Numeric}} {a:1, b:2, c:3, d:8}.count{|a,z| z == Numeric}"
+=begin
 #----my_all? tests
 puts t1.my_all?{|x| x < 0}
 puts t2.my_all?{|x,y| y > 4}
