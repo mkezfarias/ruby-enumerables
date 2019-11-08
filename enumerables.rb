@@ -50,22 +50,83 @@ module Enumerable
   myarr
   end
 
+  def my_all?(pattern=nil)
+    return true unless block_given? || !pattern.nil?
+    
+    if pattern
+      self.my_each do |item|
+        return false unless item.is_a? pattern
+      end
+    elsif self.is_a? Array
+      self.my_each do |item|
+        return false unless yield(item)
+      end 
+    elsif self.is_a? Hash
+      self.my_each do |k,v|
+        return false unless yield(k,v)
+      end
+    end
+    true
+  end
+
+  def my_any?(pattern=nil)
+    return false unless block_given? || !pattern.nil?
+    
+    if pattern
+      self.my_each do |item|
+        return true unless !item.is_a? pattern
+      end
+
+    elsif self.is_a? Array
+      self.my_each do |item|
+        return true if yield(item)
+      end 
+    elsif self.is_a? Hash
+      self.my_each do |k,v|
+        return true if yield(k,v)
+      end
+    end
+    false
+  end
+
+  def my_none?(pattern=nil)
+    return true unless block_given? || !pattern.nil?
+    
+    if pattern
+      self.my_each do |item|
+        return true unless item.is_a? pattern
+      end
+    elsif self.is_a? Array
+      self.my_each do |item|
+        return true if yield(item)
+      end 
+    elsif self.is_a? Hash
+      self.my_each do |k,v|
+        return true if yield(k,v)
+      end
+    end
+    false
+  end
+
 end
 
 #----samples
-t1 = [1,2,3,4,5]
-t2 = {a:1, b:2, c:3, d:4}
+t1 = [1,2,3,2,5]
+t2 = {a:1, b:2, c:3, d:8}
 t3 = ["do", "don't", "memee"]
 t4 = {mi:"mama", me:"mima", mina:"moa", al:"together"}
 
-#----tests
+#----my_all? tests
+puts t1.my_any?{|x| x < 0}
+puts t2.my_any?{|x,y| y > 4}
+puts t1.my_any?(Integer)
+=begin
+#----my_select tests
 puts t1.my_select{|x| x <= 3}
 puts t2.my_select{|x,y| y >= 3}  #{:c=>3, :d=>4}
 
-
-
-=begin
-#t1.my_each_with_index{|item,index| puts "#{item} and #{index} here"}
+#---- my_each_with_index tests
+t1.my_each_with_index{|item,index| puts "#{item} and #{index} here"}
 t2.my_each_with_index{|item,index| puts "#{item} and #{index} here"}
 t2.my_each_with_index{|(key,value), i| puts "key is #{key} value is #{value} index is #{i}"}
 t4.my_each_with_index{|(key,value), i| puts "#{key} and #{value} here and #{i} here"}
