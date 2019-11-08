@@ -90,7 +90,7 @@ module Enumerable
   end
 
   def my_none?(pattern=nil)
-    return true unless block_given? || !pattern.nil?
+  return true unless block_given? || !pattern.nil?
     
     if pattern
       self.my_each do |item|
@@ -98,15 +98,16 @@ module Enumerable
       end
     elsif self.is_a? Array
       self.my_each do |item|
-        return true if yield(item)
+        return true unless yield(item)
       end 
     elsif self.is_a? Hash
       self.my_each do |k,v|
-        return true if yield(k,v)
+        return false if yield(k,v)
       end
     end
     false
   end
+
 
 end
 
@@ -117,9 +118,21 @@ t3 = ["do", "don't", "memee"]
 t4 = {mi:"mama", me:"mima", mina:"moa", al:"together"}
 
 #----my_all? tests
+puts t1.my_all?{|x| x < 0}
+puts t2.my_all?{|x,y| y > 4}
+puts t1.my_all?(Integer)
+puts "----------------------"
 puts t1.my_any?{|x| x < 0}
 puts t2.my_any?{|x,y| y > 4}
 puts t1.my_any?(Integer)
+puts "----------------------"
+puts t1.none?
+puts t2.none?{|x,y| y < 4}
+puts t1.none?(String)
+puts "----------------------"
+puts t1.none?
+puts t2.none?{|x,y| y < 4}
+puts t1.none?(String)
 =begin
 #----my_select tests
 puts t1.my_select{|x| x <= 3}
