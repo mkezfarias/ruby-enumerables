@@ -179,7 +179,6 @@ module Enumerable
     end
     result
   end
-
 end
 
 def multiply_els(a)
