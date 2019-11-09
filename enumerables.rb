@@ -175,7 +175,7 @@ module Enumerable
         my_arr.my_each do |i|
           result = result.send(symbol, i)
         end
-      end
+      
     end
     result
   end
