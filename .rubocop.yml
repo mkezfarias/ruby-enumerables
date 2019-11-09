@@ -7,7 +7,7 @@ AllCops:
     - "Rakefile"
   DisplayCopNames: true
 
-rubocop:disable Style/CaseEquality
+rubocop: disable Style/CaseEquality
 
 Metrics/LineLength:
   Max: 120
