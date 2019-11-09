@@ -179,7 +179,7 @@ module Enumerable
     result
   end
 
- end
+end
 
 def multiply_els(a)
   a.my_inject(:*)
