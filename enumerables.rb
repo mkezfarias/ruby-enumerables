@@ -176,7 +176,7 @@ module Enumerable # rubocop:disable Metrics/ModuleLength
         my_arr.my_each do |i|
           result = result.send(symbol, i)
         end
-      
+      end
     end
     result
   end
@@ -186,7 +186,6 @@ def multiply_els(a)
   a.my_inject(:*)
 end
 p multiply_els([2,4,5])
-
 
 double = Proc.new { |num| num*2 }
 p [1, 2, 3].my_map(&double).my_map{ |num| num*2 }
