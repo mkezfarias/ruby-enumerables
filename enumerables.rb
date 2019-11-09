@@ -3,14 +3,15 @@
 module Enumerable # rubocop:disable Metrics/ModuleLength  ///////////
   def my_each
     return to_enum unless block_given?
+
     if is_a? Array
       for i in self do
         yield(i)
-      end       
-    elsif is_a? Hash
+      end
+        elsif is_a? Hash
       for key,value in self do
         yield(key, value)
-      end  
+      end
     end
     self
   end
