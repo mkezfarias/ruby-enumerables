@@ -6,7 +6,8 @@ AllCops:
     - "Guardfile"
     - "Rakefile"
   DisplayCopNames: true
-  disable Style/CaseEquality
+
+
 
 Metrics/LineLength:
   Max: 120
