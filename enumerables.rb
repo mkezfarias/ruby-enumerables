@@ -179,15 +179,27 @@ module Enumerable
     result
   end
 
-end
-      #!memo.nil? && !operator.nil?
+ end
 
+def multiply_els(a)
+  a.my_inject(:*)
+end
+p multiply_els([2,4,5])
+
+
+double = Proc.new { |num| num*2 }
+p [1, 2, 3].my_map(&double).my_map{ |num| num*2 }
+
+
+=begin
 #----samples
 t1 = [1,2,3,2,3]
 t2 = {a:1, b:2, c:3, d:8}
 t3 = ["do", "don't", "memee"]
 t4 = {mi:"mama", me:"mima", mina:"moa", al:"together"}
 
+=begin
+#------- tests for inject
 p t1.inject{|acc,val| acc + val}
 p t1.my_inject{|acc,val| acc + val}
 p t1.inject(20){|acc,val| acc + val}
