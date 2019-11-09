@@ -150,15 +150,54 @@ module Enumerable
         new_array
   end
 
-
+  def my_inject(*args)
+    my_arr = self.to_a
+    if block_given?
+      my_arr = self.to_a
+      result = args[0].nil? ? my_arr[0] : args[0]
+      my_arr.shift if args[0].nil?
+      my_arr.each do |number|
+        result = yield(result,number)
+      end
+    elsif !block_given? 
+      my_arr = self.to_a
+      if args[1].nil?
+        symbol = args[0]
+        result = my_arr[0]
+        my_arr[1..-1].my_each do |i|
+        result = result.send(symbol,i)
+        end
+      
+      elsif !args[1].nil?
+        symbol = args[1]
+        result = args[0]
+        my_arr.my_each do |i|
+          result = result.send(symbol, i)
+        end
+      end
+    end
+    result
+  end
 
 end
+      #!memo.nil? && !operator.nil?
 
 #----samples
-t1 = [1,2,3,2,5]
+t1 = [1,2,3,2,3]
 t2 = {a:1, b:2, c:3, d:8}
 t3 = ["do", "don't", "memee"]
 t4 = {mi:"mama", me:"mima", mina:"moa", al:"together"}
+
+p t1.inject{|acc,val| acc + val}
+p t1.my_inject{|acc,val| acc + val}
+p t1.inject(20){|acc,val| acc + val}
+p t1.my_inject(20){|acc,val| acc + val}
+p (5..10).inject{|acc,val| acc + val}
+p (5..10).my_inject{|acc,val| acc + val}
+p t1.inject(:+)
+p t1.my_inject(:+)
+p t1.inject(2,:*)
+p t1.my_inject(2,:*)
 
 =begin
 p t1.map {|x| x*2}
