@@ -21,15 +21,15 @@ module Enumerable # rubocop:disable Metrics/ModuleLength  ///////////
 
     if is_a? Array
       i = 0
-      while i < length do
+      while i < length
         yield(self[i], i)
           i += 1
       end
     elsif is_a? Hash
       j = 0
-      while j < length do
-        yield([self.keys[j], self.values[j]], j)
-          j += 1
+      while j < length
+        yield([keys[j], values[j]], j)
+         j += 1
       end
     end
     self
@@ -40,96 +40,90 @@ module Enumerable # rubocop:disable Metrics/ModuleLength  ///////////
 
     if is_a? Array
       myarr = []
-      self.my_each do |item|
+      my_each do |item|
         myarr.push(item) if yield(item)
       end
     elsif is_a? Hash
       myarr = {}
-      self.my_each do |k, v|
+      my_each do |k, v|
         myarr[k] = v if yield(k, v)
       end
     end
-  myarr
+    myarr
   end
 
-  def my_all?(pattern=nil)
+  def my_all?(pattern = nil)
     return true unless block_given? || !pattern.nil?
 
     if pattern
-      self.my_each do |item|
+      my_each do |item|
         return false unless item.is_a? pattern
       end
     elsif is_a? Array
-      self.my_each do |item|
+      my_each do |item|
         return false unless yield(item)
       end
     elsif is_a? Hash
-      self.my_each do |k, v|
+      my_each do |k, v|
         return false unless yield(k, v)
       end
     end
     true
   end
 
-  def my_any?(pattern=nil)
+  def my_any?(pattern = nil)
     return false unless block_given? || !pattern.nil?
 
     if pattern
-      self.my_each do |item|
-        return true unless !item.is_a? pattern
+      my_each do |item|
+        return true if item.is_a? pattern
       end
     elsif is_a? Array
-      self.my_each do |item|
+      my_each do |item|
         return true if yield(item)
       end
     elsif is_a? Hash
-      self.my_each do |k, v|
+      my_each do |k, v|
         return true if yield(k, v)
       end
     end
     false
   end
 
-  def my_none?(pattern=nil)
-  return true unless block_given? || !pattern.nil?
+  def my_none?(pattern = nil)
+    return true unless block_given? || !pattern.nil?
 
     if pattern
-      self.my_each do |item|
+      my_each do |item|
         return true unless item.is_a? pattern
       end
     elsif is_a? Array
-      self.my_each do |item|
+      my_each do |item|
         return true unless yield(item)
       end
     elsif is_a? Hash
-      self.my_each do |k, v|
+      my_each do |k, v|
         return false if yield(k, v)
       end
     end
     false
   end
 
-  def my_count(x=nil)
-    return length unless block_given? || !x.nil?
+  def my_count(thing = nil)
+    return length unless block_given? || !thing.nil?
 
     counter = 0
-    if !x.nil?
-      self.my_each do |item|
-        if item == x
-          counter += 1
-        end
+    if !thing.nil?
+      my_each do |item|
+        counter += 1 if item == thing
       end
     elsif is_a? Array
-      self.my_each do |item|
-        if yield(item)
-          counter += 1
-        end
+      my_each do |item|
+        counter += 1 if yield(item)
       end
     elsif is_a? Hash
-      self.my_each do |k, v|
-        if yield(k,v)
-          counter += 1
-        end
+      my_each do |k, v|
+        counter += 1 if yield(k,v)
       end
     end
     counter
@@ -140,11 +134,11 @@ module Enumerable # rubocop:disable Metrics/ModuleLength  ///////////
 
     new_array = []
     if is_a? Array
-      self.my_each do |k|
+      my_each do |k|
         new_array.push(yield(k))
       end
     elsif is_a? Hash
-      self.my_each do |k, v|
+      my_each do |k, v|
         new_array.push(yield(k, v))
       end
     end
@@ -152,7 +146,7 @@ module Enumerable # rubocop:disable Metrics/ModuleLength  ///////////
   end
 
   def my_inject(*args)
-    my_arr = self.to_a
+    my_arr = to_a
     if block_given?
       my_arr = self.to_a
       result = args[0].nil? ? my_arr[0] : args[0]
@@ -187,5 +181,5 @@ p multiply_els([2,4,5])
 double = Proc.new { |num| num*2 }
 p [1, 2, 3].my_map(&double).my_map{ |num| num*2 }
 
-arrs = [3,3,3,4,5]
-arrs.my_each_with_index{|x,a| puts "my #{x} and my #{a}"}
+arrs = [a:3,b:3,c:3,d:4,f:5]
+arrs.my_each_with_index{|(x,a| puts "my #{x} and my #{a}"}
