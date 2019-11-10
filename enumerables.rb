@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Enumerable 
+module Enumerable
   def my_each
     return to_enum unless block_given?
 
@@ -23,7 +23,7 @@ module Enumerable
       i = 0
       while i < length
         yield(self[i], i)
-          i += 1
+         i += 1
       end
     elsif is_a? Hash
       j = 0
