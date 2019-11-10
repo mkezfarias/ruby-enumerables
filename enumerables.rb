@@ -148,14 +148,14 @@ module Enumerable # rubocop:disable Metrics/ModuleLength  ///////////
   def my_inject(*args)
     my_arr = to_a
     if block_given?
-      my_arr = self.to_a
+      my_arr = to_a
       result = args[0].nil? ? my_arr[0] : args[0]
       my_arr.shift if args[0].nil?
       my_arr.each do |number|
         result = yield(result, number)
       end
     elsif !block_given?
-      my_arr = self.to_a
+      my_arr = to_a
       if args[1].nil?
         symbol = args[0]
         result = my_arr[0]
