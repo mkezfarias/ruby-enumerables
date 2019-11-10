@@ -181,5 +181,5 @@ p multiply_els([2,4,5])
 double = Proc.new { |num| num*2 }
 p [1, 2, 3].my_map(&double).my_map{ |num| num*2 }
 
-arrs = [a:3,b:3,c:3,d:4,f:5]
-arrs.my_each_with_index{|(x,a| puts "my #{x} and my #{a}"}
+#arrs = [a:3,b:3,c:3,d:4,f:5]
+#arrs.my_each_with_index{|(x,a| puts "my #{x} and my #{a}"}
