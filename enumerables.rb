@@ -9,11 +9,6 @@ module Enumerable
       while i < length
         yield(i)
       end
-    elsif is_a? Hash
-      i = 0
-      while i < length do |key, value|
-        yield(key, value)
-      end
     end
     self
   end
