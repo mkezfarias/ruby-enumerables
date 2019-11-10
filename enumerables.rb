@@ -5,11 +5,13 @@ module Enumerable
     return to_enum unless block_given?
 
     if is_a? Array
-      for i in self do
+      i = 0
+      while i < length
         yield(i)
       end
     elsif is_a? Hash
-      for key, value in self do
+      i = 0
+      while i < length do |key, value|
         yield(key, value)
       end
     end
