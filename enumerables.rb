@@ -58,8 +58,6 @@ module Enumerable
   end
 
   def my_all?(pattern = nil) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-    
-
     arr_to_work = self
     if !block_given? && pattern.nil?
       arr_to_work.my_each do |item|
@@ -139,7 +137,7 @@ module Enumerable
       end
     elsif is_a? Array
       arr_to_work.my_each do |item|
-        return true unless yield(item)
+        return false if yield(item)
       end
     elsif is_a? Hash
       arr_to_work.my_each do |k, v|
@@ -190,7 +188,7 @@ module Enumerable
   def my_inject(*args) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     my_arr = to_a
     if block_given?
-      my_arr = to_a
+      my_arr = dup.to_a
       result = args[0].nil? ? my_arr[0] : args[0]
       my_arr.shift if args[0].nil?
       my_arr.each do |number|
