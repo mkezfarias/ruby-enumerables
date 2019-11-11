@@ -58,13 +58,14 @@ module Enumerable
   end
 
   def my_all?(pattern = nil) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-    return false if !block_given? && pattern.nil?
+    
 
     arr_to_work = self
-    arr_to_work.my_each do |item|
-      return false unless item
-    end
-    if pattern.is_a? Regexp
+    if !block_given? && pattern.nil?
+      arr_to_work.my_each do |item|
+        return true unless item
+      end
+    elsif pattern.is_a? Regexp
       arr_to_work.my_each do |item|
         return false unless item =~ pattern
       end
@@ -218,3 +219,5 @@ end
 def multiply_els(arg)
   arg.my_inject(:*)
 end
+p [1,2,3].my_all?
+p [1,2,3].all?
