@@ -1,0 +1,4 @@
+{
+    "ruby.linter.executablePath": " \"ruby.linter.executablePath\": \"PathToExecutable\"",
+    "ruby.linter.run": "onSave"
+}
