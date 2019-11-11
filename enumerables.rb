@@ -61,7 +61,7 @@ module Enumerable
     arr_to_work = self
     if !block_given? && pattern.nil?
       arr_to_work.my_each do |item|
-        return true unless item
+        return false if !item
       end
     elsif pattern.is_a? Regexp
       arr_to_work.my_each do |item|
@@ -217,3 +217,5 @@ end
 def multiply_els(arg)
   arg.my_inject(:*)
 end
+p [2, "s", nil].my_all?
+p [2, "s", nil].my_all?
