@@ -219,5 +219,3 @@ end
 def multiply_els(arg)
   arg.my_inject(:*)
 end
-p [1,2,3].my_all?
-p [1,2,3].all?
