@@ -58,12 +58,23 @@ module Enumerable
   end
 
   def my_all?(pattern = nil) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-    return true unless block_given? || !pattern.nil?
+    return false if !block_given? && pattern.nil?
 
     arr_to_work = self
-    if pattern
+    arr_to_work.my_each do |item|
+      return false unless item
+    end
+    if pattern.is_a? Regexp
+      arr_to_work.my_each do |item|
+        return false unless item =~ pattern
+      end
+    elsif pattern.is_a? Class
       arr_to_work.my_each do |item|
         return false unless item.is_a? pattern
+      end
+    elsif pattern
+      arr_to_work.my_each do |item|
+        return false unless item == pattern
       end
     elsif is_a? Array
       arr_to_work.my_each do |item|
@@ -78,14 +89,23 @@ module Enumerable
   end
 
   def my_any?(pattern = nil) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-    return false unless block_given? || !pattern.nil?
-
     arr_to_work = self
-    if pattern
+    if !block_given? && pattern.nil?
+      arr_to_work.my_each do |item|
+        return true if item
+      end
+    elsif pattern.is_a? Regexp
+      arr_to_work.my_each do |item|
+        return true if item =~ pattern
+      end
+    elsif pattern.is_a? Class
       arr_to_work.my_each do |item|
         return true if item.is_a? pattern
       end
-
+    elsif pattern
+      arr_to_work.my_each do |item|
+        return true if item == pattern
+      end
     elsif is_a? Array
       arr_to_work.my_each do |item|
         return true if yield(item)
@@ -99,12 +119,22 @@ module Enumerable
   end
 
   def my_none?(pattern = nil) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-    return true unless block_given? || !pattern.nil?
-
     arr_to_work = self
-    if pattern
+    if !block_given? && pattern.nil?
       arr_to_work.my_each do |item|
-        return true unless item.is_a? pattern
+        return false if item
+      end
+    elsif pattern.is_a? Regexp
+      arr_to_work.my_each do |item|
+        return false if item =~ pattern
+      end
+    elsif pattern.is_a? Class
+      arr_to_work.my_each do |item|
+        return false if item.is_a? pattern
+      end
+    elsif pattern
+      arr_to_work.my_each do |item|
+        return false if item == pattern
       end
     elsif is_a? Array
       arr_to_work.my_each do |item|
@@ -115,7 +145,7 @@ module Enumerable
         return false if yield(k, v)
       end
     end
-    false
+    true
   end
 
   def my_count(xxx = nil) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
@@ -188,9 +218,3 @@ end
 def multiply_els(arg)
   arg.my_inject(:*)
 end
-p multiply_els([2, 4, 5])
-
-# double = Proc.new { |num| num * 2 }
-# p [1, 2, 3].my_map(&double).my_map { |num| num * 2 }
-abc = [a: 2, b: 3, c: 4]
-abc.my_each { |a| puts "a #{a} and b #{a}" }
